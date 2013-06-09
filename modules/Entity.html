@@ -1,0 +1,277 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>ShootEmAll</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Class_Entity">Class Entity </a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul>
+  <li><strong>Entity</strong></li>
+  <li><a href="../modules/Level.html">Level</a></li>
+  <li><a href="../modules/Mob.html">Mob</a></li>
+  <li><a href="../modules/Weapon.html">Weapon</a></li>
+  <li><a href="../modules/entity.bullet.html">entity.bullet</a></li>
+  <li><a href="../modules/entity.player.html">entity.player</a></li>
+  <li><a href="../modules/mob.bat.html">mob.bat</a></li>
+  <li><a href="../modules/mob.mummy.html">mob.mummy</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>Entity</code></h1>
+
+<p>Main <em>superclass</em> for all the objects who wants to have a minimal effect or interaction with other objects inside the level map.</p>
+<p><h5>Example of Main Entities: </h5>
+
+<ul>
+<li>Player</li>
+<li>Mobs</li>
+<li>Bullets</li>
+<li>Collectable items&hellip;</li>
+</ul>
+
+</p>
+
+
+<h2><a href="#Class_Entity">Class Entity </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#Entity:initialize">Entity:initialize&nbsp;(x, y, speed, state, sprites, animations, anchor, quadCollider, level)</a></td>
+	<td class="summary">Initialize the object <a href="../modules/Entity.html#">Entity</a> .</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Entity:delete">Entity:delete&nbsp;()</a></td>
+	<td class="summary">Class destructor</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Entity:update">Entity:update&nbsp;(dt)</a></td>
+	<td class="summary">Update stage.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Entity:draw">Entity:draw&nbsp;()</a></td>
+	<td class="summary">Draw stage.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Entity:updateTile">Entity:updateTile&nbsp;()</a></td>
+	<td class="summary">Update tile attribute.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Entity:move">Entity:move&nbsp;(x, y)</a></td>
+	<td class="summary">Move <a href="../modules/Entity.html#">Entity</a>  x and y amount of pixel.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Entity:moveAt">Entity:moveAt&nbsp;(x, y)</a></td>
+	<td class="summary">Set <a href="../modules/Entity.html#">Entity</a>  in location referenciated in world location coordinates..</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Entity:_changeState">Entity:_changeState&nbsp;(newState)</a></td>
+	<td class="summary">Change state to a new state.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2><a name="Class_Entity"></a>Class Entity </h2>
+        Entity Class.
+    <dl class="function">
+    <dt>
+    <a name = "Entity:initialize"></a>
+    <strong>Entity:initialize&nbsp;(x, y, speed, state, sprites, animations, anchor, quadCollider, level)</strong>
+    </dt>
+    <dd>
+    Initialize the object <a href="../modules/Entity.html#">Entity</a> . </p>
+
+<p> <em>Never create an instance of this class!.</em> It&rsquo;s recomendable work with subclasses.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x</span>
+         world x coordinate</li>
+        <li><span class="parameter">y</span>
+         world y coordinate</li>
+        <li><span class="parameter">speed</span>
+         value px/second</li>
+        <li><span class="parameter">state</span>
+         init name state of state machine</li>
+        <li><span class="parameter">sprites</span>
+         <code>Image</code> object that contains SPRITES used in animations.</li>
+        <li><span class="parameter">animations</span>
+         dictionary of animations created with anim8 by kikito, the key is the stateName+facingPosition</li>
+        <li><span class="parameter">anchor</span>
+            <span class="types"><span class="type">{x,y}</span></span>
+         table that define the sprite anchor point.</li>
+        <li><span class="parameter">quadCollider</span>
+            <span class="types"><span class="type">{x1,y1,x2,y2}</span></span>
+         table with two pair of coordinates.</li>
+        <li><span class="parameter">level</span>
+         <a href="../modules/Level.html#">Level</a>  where the object belongs</li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Entity:delete"></a>
+    <strong>Entity:delete&nbsp;()</strong>
+    </dt>
+    <dd>
+    Class destructor
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Entity:update"></a>
+    <strong>Entity:update&nbsp;(dt)</strong>
+    </dt>
+    <dd>
+    Update stage.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">dt</span>
+         delta time</li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Entity:draw"></a>
+    <strong>Entity:draw&nbsp;()</strong>
+    </dt>
+    <dd>
+    Draw stage.
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Entity:updateTile"></a>
+    <strong>Entity:updateTile&nbsp;()</strong>
+    </dt>
+    <dd>
+    Update tile attribute.
+ Update tile to the current isometric grid position.
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Entity:move"></a>
+    <strong>Entity:move&nbsp;(x, y)</strong>
+    </dt>
+    <dd>
+    Move <a href="../modules/Entity.html#">Entity</a>  x and y amount of pixel.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x</span>
+         px to move in X coordinate</li>
+        <li><span class="parameter">y</span>
+         px to move in Y coordinate</li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Entity:moveAt"></a>
+    <strong>Entity:moveAt&nbsp;(x, y)</strong>
+    </dt>
+    <dd>
+    Set <a href="../modules/Entity.html#">Entity</a>  in location referenciated in world location coordinates..
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x</span>
+         world location x coordinate</li>
+        <li><span class="parameter">y</span>
+         world location y</li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Entity:_changeState"></a>
+    <strong>Entity:_changeState&nbsp;(newState)</strong>
+    </dt>
+    <dd>
+    Change state to a new state.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">newState</span>
+         new state.</li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.3.12</a></i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

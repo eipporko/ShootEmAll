@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>ShootEmAll</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Class_Mob">Class Mob </a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul>
+  <li><a href="../modules/Entity.html">Entity</a></li>
+  <li><a href="../modules/Level.html">Level</a></li>
+  <li><strong>Mob</strong></li>
+  <li><a href="../modules/Weapon.html">Weapon</a></li>
+  <li><a href="../modules/entity.bullet.html">entity.bullet</a></li>
+  <li><a href="../modules/entity.player.html">entity.player</a></li>
+  <li><a href="../modules/mob.bat.html">mob.bat</a></li>
+  <li><a href="../modules/mob.mummy.html">mob.mummy</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>Mob</code></h1>
+
+<p>Main superclass for design enemies, subclass of <a href="../modules/Entity.html#">Entity</a> .</p>
+<p> In this case, all the mobs die with the same explosion.</p>
+
+<p>  <img src="../../res/art/effects/fx_enemydie_64.png" title="Explosion" alt="Texto alternativo" /><br/>
+</p>
+
+
+<h2><a href="#Class_Mob">Class Mob </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#Mob:initialize">Mob:initialize&nbsp;(x, y, speed, life, state, sprites, animations, anchor, quadCollider, level)</a></td>
+	<td class="summary">Initialize the object <a href="../modules/Mob.html#">Mob</a> .</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Mob:update">Mob:update&nbsp;(dt)</a></td>
+	<td class="summary">Update stage.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Mob:checkCollision">Mob:checkCollision&nbsp;()</a></td>
+	<td class="summary">Checks collisions with the bullets running on the level and manage the damage that inflicts on the mob.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Mob:kill">Mob:kill&nbsp;()</a></td>
+	<td class="summary">Kill state.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Mob:followPath">Mob:followPath&nbsp;(dt)</a></td>
+	<td class="summary">Makes the mob follow the path described in his attribute path.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2><a name="Class_Mob"></a>Class Mob </h2>
+        Mob Class, subclass of <a href="../modules/Entity.html#">Entity</a><br/>
+
+    <dl class="function">
+    <dt>
+    <a name = "Mob:initialize"></a>
+    <strong>Mob:initialize&nbsp;(x, y, speed, life, state, sprites, animations, anchor, quadCollider, level)</strong>
+    </dt>
+    <dd>
+    Initialize the object <a href="../modules/Mob.html#">Mob</a> . </p>
+
+<p> Never create an instance of this class. It&rsquo;s recomendable work with subclasses.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x</span>
+         world x coordinate</li>
+        <li><span class="parameter">y</span>
+         world y coordinate</li>
+        <li><span class="parameter">speed</span>
+         value px/second</li>
+        <li><span class="parameter">life</span>
+         amount of life</li>
+        <li><span class="parameter">state</span>
+         init name state of state machine</li>
+        <li><span class="parameter">sprites</span>
+         <code>Image</code> object that contains SPRITES used in animations.</li>
+        <li><span class="parameter">animations</span>
+         dictionary of animations created with anim8 by kikito, the key is the stateName+facingPosition</li>
+        <li><span class="parameter">anchor</span>
+            <span class="types"><span class="type">{x,y}</span></span>
+         table that define the sprite anchor point.</li>
+        <li><span class="parameter">quadCollider</span>
+            <span class="types"><span class="type">{x1,y1,x2,y2}</span></span>
+         table with two pair of coordinates.</li>
+        <li><span class="parameter">level</span>
+         <a href="../modules/Level.html#">Level</a>  where the object belongs</li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Mob:update"></a>
+    <strong>Mob:update&nbsp;(dt)</strong>
+    </dt>
+    <dd>
+    Update stage.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">dt</span>
+         delta time</li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Mob:checkCollision"></a>
+    <strong>Mob:checkCollision&nbsp;()</strong>
+    </dt>
+    <dd>
+    Checks collisions with the bullets running on the level and manage the damage that inflicts on the mob.
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Mob:kill"></a>
+    <strong>Mob:kill&nbsp;()</strong>
+    </dt>
+    <dd>
+    Kill state.<br/>
+ The mob is dead and it&rsquo;s doing things like &ldquo;ARGHHH, I'M DYING!!&rdquo; before being destroyed.
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Mob:followPath"></a>
+    <strong>Mob:followPath&nbsp;(dt)</strong>
+    </dt>
+    <dd>
+    Makes the mob follow the path described in his attribute path.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">dt</span>
+         delta time</li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.3.12</a></i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

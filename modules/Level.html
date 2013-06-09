@@ -1,0 +1,625 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>ShootEmAll</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Class_Level">Class Level </a></li>
+<li><a href="#Buckets_functions">Buckets functions </a></li>
+<li><a href="#Collision_functions">Collision functions </a></li>
+<li><a href="#A__functions">A* functions </a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul>
+  <li><a href="../modules/Entity.html">Entity</a></li>
+  <li><strong>Level</strong></li>
+  <li><a href="../modules/Mob.html">Mob</a></li>
+  <li><a href="../modules/Weapon.html">Weapon</a></li>
+  <li><a href="../modules/entity.bullet.html">entity.bullet</a></li>
+  <li><a href="../modules/entity.player.html">entity.player</a></li>
+  <li><a href="../modules/mob.bat.html">mob.bat</a></li>
+  <li><a href="../modules/mob.mummy.html">mob.mummy</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>Level</code></h1>
+
+<p>Loads .tmx tilemap and runs the level designed on it.</p>
+<p><p> Inits player, mobs and offers utilities for help spatial hashing, collision system and pathfinding.</p>
+
+<h3>Tilemap description:</h3>
+
+<p> You can design a map using a lot of layers, both <em>tile layer</em> and <em>object layer</em>. But there are two required: </p>
+
+<ul>
+<li><p><em>Tile layer &ldquo;0&rdquo;</em>: where the entities are drawn and used for check wall collisions.<br/>
+  &mdash; Tiles with property <code>obstacle = true</code> works as invisible wall.</p></li>
+<li><p><em>Object layer &ldquo;Events&rdquo;</em>: used for instance objects.<br/>
+  &mdash; The object is instanciated where the object is placed.<br/>
+  &mdash; Must be defined with the <code>type = spawn</code> and had a property defined as <a href="http://www.lua.org/manual/5.2/manual.html#pdf-type">type</a>  with the value that describes
+  the object. See <code>Level:_mobSpawn()</code>.<br/>
+  &mdash; The object spawn with property <code>type = player</code> instance the player avatar where is placed.</p></li>
+</ul>
+
+</p>
+
+
+<h2><a href="#Class_Level">Class Level </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#Level:create">Level:create&nbsp;(tmxPath)</a></td>
+	<td class="summary">Create a <a href="../modules/Level.html#">Level</a> .</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Level:update">Level:update&nbsp;(dt)</a></td>
+	<td class="summary">Update stage.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Level:drawQuadCollider">Level:drawQuadCollider&nbsp;(entity)</a></td>
+	<td class="summary"><strong>Debug function</strong>.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Level:drawPath">Level:drawPath&nbsp;(entity)</a></td>
+	<td class="summary"><strong>Debug function</strong>.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Level:drawEntities">Level:drawEntities&nbsp;(tilePositionX, tilePositionY, tileDrawX, tileDrawY, self)</a></td>
+	<td class="summary">Draw the entities of a tile.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Level:draw">Level:draw&nbsp;()</a></td>
+	<td class="summary">Draw stage.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Level:shake">Level:shake&nbsp;()</a></td>
+	<td class="summary">Shake cam effect.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Level:_mobSpawn">Level:_mobSpawn&nbsp;()</a></td>
+	<td class="summary">Spawn player and mobs on the map.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Level:tileToCoords">Level:tileToCoords&nbsp;(tileX, tileY)</a></td>
+	<td class="summary">Turns an isometric grid tile number to world location.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Level:coordsToTile">Level:coordsToTile&nbsp;(x, y)</a></td>
+	<td class="summary">Turns a world location into an isometric grid tile number.</td>
+	</tr>
+</table>
+<h2><a href="#Buckets_functions">Buckets functions </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#Level:getBucket">Level:getBucket&nbsp;(tile)</a></td>
+	<td class="summary">Gets the bucket that make reference to the location specified.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Level:putIntoBucket">Level:putIntoBucket&nbsp;(entity, tile, oldTile)</a></td>
+	<td class="summary">Puts an entity into a bucket.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Level:removeFromBucket">Level:removeFromBucket&nbsp;(entity, tile)</a></td>
+	<td class="summary">Remove an entity from his bucket.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Level:clearBuckets">Level:clearBuckets&nbsp;(buckets)</a></td>
+	<td class="summary">Clears all the buckets.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Level:updateBucket">Level:updateBucket&nbsp;(entity)</a></td>
+	<td class="summary">Update the position in the bucket if it&rsquo;s necessary.</td>
+	</tr>
+</table>
+<h2><a href="#Collision_functions">Collision functions </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#Level:bucketsInsideCollider">Level:bucketsInsideCollider&nbsp;(quadCollider)</a></td>
+	<td class="summary">Gets a list of buckets that are contained by a quad collider.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Level:checkCollideEntities">Level:checkCollideEntities&nbsp;(entity, x, y)</a></td>
+	<td class="summary">Checks if an <a href="../modules/Entity.html#">Entity</a>  is colliding with another one.</td>
+	</tr>
+</table>
+<h2><a href="#A__functions">A* functions </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#Level:findNeighbors">Level:findNeighbors&nbsp;(row, col)</a></td>
+	<td class="summary">For an row and column given, returns a list of walkable neighbors and distances to them.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Level:flattenMap">Level:flattenMap&nbsp;()</a></td>
+	<td class="summary">Flat the bidimensional array of the map.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2><a name="Class_Level"></a>Class Level </h2>
+        Level Class.
+    <dl class="function">
+    <dt>
+    <a name = "Level:create"></a>
+    <strong>Level:create&nbsp;(tmxPath)</strong>
+    </dt>
+    <dd>
+    Create a <a href="../modules/Level.html#">Level</a> .
+ Loads the .tmx tilemap.</p>
+
+<p> Supose the files placed into &ldquo;res/levels/&rdquo; folder.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tmxPath</span>
+         the file name of .tmx</li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Level:update"></a>
+    <strong>Level:update&nbsp;(dt)</strong>
+    </dt>
+    <dd>
+    <p>Update stage. </p>
+
+<ul>
+<li>Calls the method <code>update(dt)</code> of all <a href="../modules/Entity.html#">Entity</a>  objects.</li>
+<li>Updates the camera position, following the player.</li>
+</ul>
+
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">dt</span>
+         delta time</li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Level:drawQuadCollider"></a>
+    <strong>Level:drawQuadCollider&nbsp;(entity)</strong>
+    </dt>
+    <dd>
+    <strong>Debug function</strong>. </p>
+
+<p> Draw for a given entity his bound box.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">entity</span>
+         the <a href="../modules/Entity.html#">Entity</a>  object</li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Level:drawPath"></a>
+    <strong>Level:drawPath&nbsp;(entity)</strong>
+    </dt>
+    <dd>
+    <strong>Debug function</strong>. </p>
+
+<p> Draw for a given entity the path that is walking.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">entity</span>
+         the <a href="../modules/Entity.html#">Entity</a>  object</li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Level:drawEntities"></a>
+    <strong>Level:drawEntities&nbsp;(tilePositionX, tilePositionY, tileDrawX, tileDrawY, self)</strong>
+    </dt>
+    <dd>
+    Draw the entities of a tile.<br/>
+</p>
+
+<p> Draw all the entities which are on a specific tile of the .tmx map, sorted by depth.</p>
+
+<p> This function will be called by <code>TileLayer:setAfterTileFunction()</code> from AdvTileLoader library
+ and was made following her documentation.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tilePositionX</span>
+         tile X position</li>
+        <li><span class="parameter">tilePositionY</span>
+         tile Y position</li>
+        <li><span class="parameter">tileDrawX</span>
+         unused</li>
+        <li><span class="parameter">tileDrawY</span>
+         unused</li>
+        <li><span class="parameter">self</span>
+         unused</li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Level:draw"></a>
+    <strong>Level:draw&nbsp;()</strong>
+    </dt>
+    <dd>
+    Draw stage. </p>
+
+<p> Represent the actual level state.
+ Draw the map, the entities and the mouse.
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Level:shake"></a>
+    <strong>Level:shake&nbsp;()</strong>
+    </dt>
+    <dd>
+    Shake cam effect.<br/>
+</p>
+
+<p> Effect that fake an earthquake
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Level:_mobSpawn"></a>
+    <strong>Level:_mobSpawn&nbsp;()</strong>
+    </dt>
+    <dd>
+    Spawn player and mobs on the map.<br/>
+</p>
+
+<p> From the layer &ldquo;Events&rdquo; on the map, load the objects defined like &ldquo;spawn&rdquo;
+ and depending on his property &ldquo;type&rdquo; make an instance.
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Level:tileToCoords"></a>
+    <strong>Level:tileToCoords&nbsp;(tileX, tileY)</strong>
+    </dt>
+    <dd>
+    Turns an isometric grid tile number to world location.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tileX</span>
+         tile x position</li>
+        <li><span class="parameter">tileY</span>
+         tile y position</li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>
+        x x world coordination</li>
+        <li>
+        y y world coordination</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Level:coordsToTile"></a>
+    <strong>Level:coordsToTile&nbsp;(x, y)</strong>
+    </dt>
+    <dd>
+    Turns a world location into an isometric grid tile number.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x</span>
+         x world coordination</li>
+        <li><span class="parameter">y</span>
+         y world coordination</li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+          <span class="types"><span class="type">{x,y}</span></span>
+        a table with an isometric grid tile position
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2><a name="Buckets_functions"></a>Buckets functions </h2>
+        Buckets functions.
+ Useful utilities for spatial hashing.
+    <dl class="function">
+    <dt>
+    <a name = "Level:getBucket"></a>
+    <strong>Level:getBucket&nbsp;(tile)</strong>
+    </dt>
+    <dd>
+    Gets the bucket that make reference to the location specified.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tile</span>
+            <span class="types"><span class="type">{x,y}</span></span>
+         a table with an isometric grid tile position</li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        Gets bucket. Returns nil if the bucket does not exist.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Level:putIntoBucket"></a>
+    <strong>Level:putIntoBucket&nbsp;(entity, tile, oldTile)</strong>
+    </dt>
+    <dd>
+    Puts an entity into a bucket.<br/>
+</p>
+
+<p> If the entity has moved then provide his old tile location for remove it from there.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">entity</span>
+         the <a href="../modules/Entity.html#">Entity</a>  that wants to insert in the bucket.</li>
+        <li><span class="parameter">tile</span>
+            <span class="types"><span class="type">{x,y}</span></span>
+         a table with an isometric grid tile position</li>
+        <li><span class="parameter">oldTile</span>
+            <span class="types"><span class="type">{x,y}</span></span>
+         (optional) a table with an isometric grid tile position</li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Level:removeFromBucket"></a>
+    <strong>Level:removeFromBucket&nbsp;(entity, tile)</strong>
+    </dt>
+    <dd>
+    Remove an entity from his bucket.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">entity</span>
+         the <a href="../modules/Entity.html#">Entity</a>  to be removed</li>
+        <li><span class="parameter">tile</span>
+            <span class="types"><span class="type">{x,y}</span></span>
+         a table with an isometric grid tile position</li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Level:clearBuckets"></a>
+    <strong>Level:clearBuckets&nbsp;(buckets)</strong>
+    </dt>
+    <dd>
+    Clears all the buckets.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">buckets</span>
+         ¿?¿??¿ &lt;&ndash; this param no make sense.</li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Level:updateBucket"></a>
+    <strong>Level:updateBucket&nbsp;(entity)</strong>
+    </dt>
+    <dd>
+    Update the position in the bucket if it&rsquo;s necessary. </p>
+
+<p> If the <a href="../modules/Entity.html#">Entity</a>  is on the same tile that the last time, this function no makes nothing.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">entity</span>
+         the <a href="../modules/Entity.html#">Entity</a>  to be updated.</li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+    <h2><a name="Collision_functions"></a>Collision functions </h2>
+        Collision functions.
+ Useful utilities for cheks collitions between <a href="../modules/Entity.html#">Entity</a>  objects.
+    <dl class="function">
+    <dt>
+    <a name = "Level:bucketsInsideCollider"></a>
+    <strong>Level:bucketsInsideCollider&nbsp;(quadCollider)</strong>
+    </dt>
+    <dd>
+    Gets a list of buckets that are contained by a quad collider.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">quadCollider</span>
+            <span class="types"><span class="type">{x1,y1,x2,y2}</span></span>
+         table with two pair of coordinates in world location.</li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Level:checkCollideEntities"></a>
+    <strong>Level:checkCollideEntities&nbsp;(entity, x, y)</strong>
+    </dt>
+    <dd>
+    Checks if an <a href="../modules/Entity.html#">Entity</a>  is colliding with another one.  <br/>
+ Saves on <code>entity.collision</code> a table with <a href="../modules/Entity.html#">Entity</a>  objects with which collided.</p>
+
+<p> If x and y params are passed, this function works like the <a href="../modules/Entity.html#">Entity</a>  was there, as forecast.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">entity</span>
+         the <a href="../modules/Entity.html#">Entity</a>  to be checked</li>
+        <li><span class="parameter">x</span>
+         (optional) world location x coordinate.</li>
+        <li><span class="parameter">y</span>
+         (optional) world location y coordinate.</li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        Returns True if the <a href="../modules/Entity.html#">Entity</a>  is colliding with another <a href="../modules/Entity.html#">Entity</a> .
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2><a name="A__functions"></a>A* functions </h2>
+        A* functions.
+ Useful utilities for pathfinding, needed for AStar library.
+    <dl class="function">
+    <dt>
+    <a name = "Level:findNeighbors"></a>
+    <strong>Level:findNeighbors&nbsp;(row, col)</strong>
+    </dt>
+    <dd>
+    For an row and column given, returns a list of walkable neighbors and distances to them.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">row</span>
+         isometric grid tile y position</li>
+        <li><span class="parameter">col</span>
+         isometric grid tile x position</li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>
+        table with positions of neighbors in flatten array.</li>
+        <li>
+        table with distances to reach the neighbor at the same position in neighbors table returned.</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Level:flattenMap"></a>
+    <strong>Level:flattenMap&nbsp;()</strong>
+    </dt>
+    <dd>
+    Flat the bidimensional array of the map.
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        table with nodes created with newNode (AStar lib).
+    </ol>
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.3.12</a></i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>
