@@ -1,6 +1,6 @@
 # License
 
-The source code for this game is released under GPLv3 license.
+The source code for this game is released under GPLv3 license.  
 See: http://www.gnu.org/licenses/gpl.txt
 
 All assets used are property of Mojang and Yar respectively and are under:
