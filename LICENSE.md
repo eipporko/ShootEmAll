@@ -4,10 +4,10 @@ The source code for this game is released under GPLv3 license.
 See: http://www.gnu.org/licenses/gpl.txt
 
 All assets used are property of Mojang and Yar respectively and are under:
-* CC BY NC SA 3.0 license. 
+* CC BY NC SA 3.0 license.   
   See: http://catacombsnatch.net/licence.html
 
-* CC BY 3.0 license.
+* CC BY 3.0 license.  
   See: http://opengameart.org/content/isometric-64x64-outside-tileset 
 
 
