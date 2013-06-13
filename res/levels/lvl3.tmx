@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="isometric" width="11" height="11" tilewidth="64" tileheight="32">
+ <tileset firstgid="1" name="iso-64x64-outside2" tilewidth="64" tileheight="64">
+  <image source="iso-64x64-outside2.png" width="640" height="1024"/>
+  <tile id="50">
+   <properties>
+    <property name="obstacle" value="true"/>
+   </properties>
+  </tile>
+  <tile id="51">
+   <properties>
+    <property name="obstacle" value="true"/>
+   </properties>
+  </tile>
+  <tile id="52">
+   <properties>
+    <property name="obstacle" value=""/>
+   </properties>
+  </tile>
+  <tile id="70">
+   <properties>
+    <property name="obstacle" value="true"/>
+   </properties>
+  </tile>
+  <tile id="114">
+   <properties>
+    <property name="obstacle" value="true"/>
+   </properties>
+  </tile>
+  <tile id="128">
+   <properties>
+    <property name="obstacle" value="true"/>
+   </properties>
+  </tile>
+  <tile id="129">
+   <properties>
+    <property name="obstacle" value="true"/>
+   </properties>
+  </tile>
+  <tile id="150">
+   <properties>
+    <property name="obstacle" value="true"/>
+   </properties>
+  </tile>
+  <tile id="155">
+   <properties>
+    <property name="obstacle" value="true"/>
+   </properties>
+  </tile>
+  <tile id="158">
+   <properties>
+    <property name="obstacle" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="-1" width="11" height="11">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NkYGBgHMXDGgMAc2xzOuQBAAA=
+  </data>
+ </layer>
+ <layer name="0" width="11" height="11">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NkYGBgJBKzQDG6uASR+t2R2I1A3ESC3cRgEyLk5uPwAzF4Dg5zQdgUyhcHYh4kNrra6Whi6GpogQEAGTA25AEAAA==
+  </data>
+ </layer>
+ <layer name="1" width="11" height="11">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NggIAeBuJAN5Fqu9D404g0fyoWsclI7GYoPQVNzQIgnkSkHRPR+HOR2L1Qeh6RZmEDsynQSwsAAAI4Tu/kAQAA
+  </data>
+ </layer>
+ <objectgroup name="Events" width="11" height="11">
+  <object name="personaje" type="spawn" x="192" y="160" width="32" height="32">
+   <properties>
+    <property name="type" value="player"/>
+   </properties>
+  </object>
+  <object x="224" y="128"/>
+  <object name="mummy" type="spawn" x="0" y="0" width="32" height="32">
+   <properties>
+    <property name="type" value="mummy"/>
+   </properties>
+  </object>
+  <object x="0" y="0"/>
+  <object x="352" y="352"/>
+  <object x="-352" y="32"/>
+ </objectgroup>
+</map>

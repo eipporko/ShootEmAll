@@ -79,7 +79,7 @@ end
 --- "stop" state of the state machine. The Mummy is stoped.
 -- @param dt delta time
 function Mummy:_stopState(dt)
-	if self.path and #self.path.waypoints > 1 then
+	if self.dest.fScore ~= nil and self.dest.fScore > 0 then
 		self:_changeState("walk")
 	end
 
@@ -91,12 +91,12 @@ end
 -- @param dt delta time
 function Mummy:_walkState(dt)
 
-	if #self.path.waypoints <= 1 then
+	if self:isInDest() then
 		self:_changeState("stop")
 		return
 	end
 
-	self:followPath(dt)
+	self:moveToDest(dt)
 
 	-- Get facing direction
 	local angle = math.atan2(newPosition:unpack())

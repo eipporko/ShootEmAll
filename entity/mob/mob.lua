@@ -48,8 +48,7 @@ function Mob:initialize(x,y,speed,life,state,sprites,animations,anchor,quadColli
 	self.dieAnimation = anim8.newAnimation('once', Mob.DIE_GRID('1-11,1','1-6,2'), 0.1)
 
 	self.life = life				-- Amount of live
-	self.path = {waypoints=nil, nextWaypoint=nil, newPath=nil} 				-- Path created by A* 
-	self.destX, self.destY = x, y 	-- Destiny Coordinates
+	self.dest = {x=nil,y=nil,fScore=nil}
 end
 
 
@@ -59,13 +58,8 @@ end
 -- @param dt delta time
 function Mob:update(dt)
 
-	-- Only calculate path when player update his position in the bucket
-	if not self.path.waypoints or self.level.player.flagUpdateBucket then
-		local exitPos = (self.level.player.tile.y * self.level.map.width) + self.level.player.tile.x
-   		local startPos = (self.tile.y * self.level.map.width) + self.tile.x
-		self.path.waypoints = startPathing(self.level.pathMap, exitPos, startPos)
-		self.path.newPath = true
-		self.path.nextWaypoint = 1
+	if self.dest.fScore == nil or self:isInDest() then
+		self:updateDest()
 	end
 
 	-- Mob is dead
@@ -132,20 +126,54 @@ function Mob:kill()
 end
 
 
---- Makes the mob follow the path described in his attribute path.
+--- Updates the attribute self.dest
+function Mob:updateDest()
+
+   		local startPos = (self.tile.y * self.level.map.width) + self.tile.x
+
+		local pathMap = self.level.pathMap
+   		local fScore = pathMap[startPos].fScore
+   		local neighbors = pathMap[startPos].neighbors
+   		local distances = pathMap[startPos].distance
+
+   		local neighborsCpy = shallowcopy(neighbors)
+
+   		for _,v in pairs(neighborsCpy) do
+   			pathMap[v].fScore = pathMap[v].fScore + self.level:numOfMobsInTile({x=pathMap[v].col,y=pathMap[v].row})
+   		end
+
+		local function neighborsSort(a,b) return pathMap[a].fScore < pathMap[b].fScore end
+   		table.sort(neighborsCpy, neighborsSort) 
+
+		for _,v in pairs(neighborsCpy) do
+			if pathMap[v].fScore < fScore then
+				self.dest.x, self.dest.y = level:tileToCoords(pathMap[v].col, 
+															  pathMap[v].row)
+				self.dest.fScore = pathMap[v].fScore
+				break
+			end
+		end
+end
+
+
+--- Checks if the `Mob` is in dest
+-- @return true if is in dest, false otherwise
+function Mob:isInDest()
+	if (self.x == self.dest.x) and (self.y == self.dest.y) then
+		return true
+	else
+		return false
+	end
+end
+
+
+--- Moves the mob to dest coords
 -- @param dt delta time
-function Mob:followPath(dt)
-	local path = self.path
+function Mob:moveToDest(dt)
 	local vectToDest = {} -- vector player-destiny
 
-	if (self.x == self.destX) and (self.y == self.destY) then
-		if path.nextWaypoint < #path.waypoints then path.nextWaypoint = path.nextWaypoint + 1 end
-		self.destX, self.destY = level:tileToCoords(path.waypoints[path.nextWaypoint].col, 
-													path.waypoints[path.nextWaypoint].row)
-	end
-
-	vectToDest.x = self.destX - self.x
-	vectToDest.y = self.destY - self.y 
+	vectToDest.x = self.dest.x - self.x
+	vectToDest.y = self.dest.y - self.y 
 	vectToDest = vector.new(vectToDest.x,vectToDest.y)
 	newPosition = vectToDest:normalized()*self.speed*dt
 
@@ -153,9 +181,10 @@ function Mob:followPath(dt)
 		local newX, newY = self.x + newPosition.x, self.y + newPosition.y
 		self:moveAt(newX,newY)
 	else
-		self:moveAt(self.destX,self.destY)
+		self:moveAt(self.dest.x,self.dest.y)
 	end
 
 	self.level:updateBucket(self)
 
+	return false
 end

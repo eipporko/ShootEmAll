@@ -68,7 +68,8 @@ function Level.create(tmxPath)
 	lvl:_mobSpawn()
 
 	-- initial flat map
-	lvl.pathMap = lvl:flattenMap()
+	local exitPos = (lvl.player.tile.y * lvl.map.width) + lvl.player.tile.x
+	lvl.pathMap = lvl:startPathing(lvl:flattenMap(), exitPos)
 
 	-- create a camera
 	lvl.cam = camera(0, 0, global.cameraZoom, 0)
@@ -91,7 +92,8 @@ function Level:update(dt)
 
 	-- Only flat the map when the player change her position
 	if self.player.flagUpdateBucket==true then
-		self.pathMap = self:flattenMap()
+		local exitPos = (self.player.tile.y * self.map.width) + self.player.tile.x
+		self.pathMap = self:startPathing(self:flattenMap(), exitPos)
 	end
 
 	-- update camera
@@ -127,21 +129,18 @@ end
 -- @param entity the `Entity` object
 function Level:drawPath(entity)
 	local colorSaved = {}
-	local waypoints = entity.path.waypoints
+	local dest = entity.dest
 	colorSaved.r, colorSaved.g, colorSaved.b = love.graphics.getColor()
 
 	love.graphics.setLineWidth(1)
-	for i = 1, #waypoints - 1 do
-		local x1, y1 = self:tileToCoords(waypoints[i].col, waypoints[i].row)
-		local x2, y2 = self:tileToCoords(waypoints[i + 1].col, waypoints[i + 1].row)
-		love.graphics.setColor(255,255,0)
-		love.graphics.line(x1,y1,x2,y2)
-		love.graphics.setColor(255,0,0)
-		love.graphics.circle("fill",x1,y1,2)
-	end
-	local sx, sy = self:tileToCoords(waypoints[#waypoints].col, waypoints[#waypoints].row)
-	love.graphics.circle("fill",sx,sy,2)
-	love.graphics.setLineWidth(1)
+
+	local x1, y1 = dest.x, dest.y
+	local x2, y2 = entity.x,  entity.y
+	love.graphics.setColor(255,255,0)
+	love.graphics.line(x1,y1,x2,y2)
+	love.graphics.setColor(255,0,0)
+	love.graphics.circle("fill",x1,y1,2)
+	love.graphics.circle("fill",x2,y2,2)
 
 	love.graphics.setColor(colorSaved.r,colorSaved.g,colorSaved.b)
 end
@@ -203,7 +202,7 @@ function Level:draw()
   	-- draw Path
   	if global.debugMode then
   		for entity,_ in pairs(self.entities) do 
-			if instanceOf(Mob,entity) and entity.path.waypoints ~= nil then
+			if instanceOf(Mob,entity) and entity.dest.fScore ~= nil then
 				self:drawPath(entity)
 			end
 			self:drawQuadCollider(entity)
@@ -449,6 +448,23 @@ function Level:checkCollideEntities(entity,x,y)
 end
 
 
+--- Returns the number of mobs in a specified tile
+-- @param tile
+-- @return number of entities
+function Level:numOfMobsInTile(tile)
+	local numOfMobs = 0
+	local bucket = self:getBucket(tile)
+
+	for ent,_ in pairs(bucket) do
+		if ent.class.super.name == "Mob" and ent.tile.x == tile.x and ent.tile.y == tile.y then
+			numOfMobs = numOfMobs+25 -- 70 is the weight that supose 1 entity in the same tile
+		end
+	end
+
+	return numOfMobs
+end
+
+
 --- A* functions.
 -- Useful utilities for pathfinding, needed for AStar library.
 -- @section collision
@@ -509,11 +525,7 @@ function Level:flattenMap()
 			local tile = self.map.layers["0"](col, row)
 			if not tile.properties.obstacle then
 				local pathLoc = (row * self.map.width) + col
-
-				local vectorToExitPos = vector.new(self:tileToCoords(exitPos.tile.x,exitPos.tile.y))
-				local vectorToActualTile = vector.new(self:tileToCoords(col,row))
-				--local hScore = abs((vectorToActualTile-vectorToExitPos):len())
-				--print("tile: "..hScore2)
+	
 				-- My hScore is built using taxicab geometry. Sum the
 				-- vertical and horizontal distances, and multiply that
 				-- by 10.
@@ -531,4 +543,67 @@ function Level:flattenMap()
 	global.flattenEnd = love.timer.getTime()
 
 	return mapFlat
+end
+
+--- The A* search algorithm. Using imported heuristics and distance values
+-- between individual nodes, this finds the shortest path from the start
+-- node's position to the exit node's position.
+-- @param pathMap:	 the flattened path map
+-- @param startPos:	 the start node's position, relative to the pathMap
+-- #returns pathMap: the found path (or empty if it failed to find a path)
+function Level:startPathing(pathMap, startPos)
+	pathMap[startPos].parent = pathMap[startPos]
+	-- Initialize the gScore and fScore of the start node
+	pathMap[startPos].gScore = 0
+	pathMap[startPos].fScore =
+		pathMap[startPos].gScore + pathMap[startPos].hScore
+	-- Toggle the open trigger on pathMap for the start node
+	pathMap[startPos].open = true
+	-- Initialize the openSet and add the start node to it
+	local openSet = binary_heap:new()
+	openSet:insert(pathMap[startPos].fScore, pathMap[startPos])
+	-- Initialize the closedSet and the testNode
+	local closedSet = {}
+	local testNode = {}
+	
+	-- The main loop for the algorithm. Will continue to check as long as
+	-- there are open nodes that haven't been checked.
+	while #openSet > 0 do
+		-- Find the next node with the best fScore
+		_, testNode = openSet:pop()
+		pathMap[testNode.pathLoc].open = false
+		-- Add that node to the closed set
+		pathMap[testNode.pathLoc].closed = true
+		table.insert(closedSet, testNode)
+		
+		-- Check all the (pre-assigned) neighbors. If they are not closed 
+		-- already, then check to see if they are either not on the open
+		-- or if they are on the open list, but their currently assigned
+		-- distance score (either given to them when they were first added
+		-- or reassigned earlier) is greater than the distance score that
+		-- goes through the current test node. If either is true, then
+		-- calculate their fScore and assign the current test node as their
+		-- parent
+		for k,v in pairs(testNode.neighbors) do
+			if not pathMap[v].closed then
+				local tempGScore = testNode.gScore + testNode.distance[k]
+				if not pathMap[v].open then
+					pathMap[v].open = true
+					pathMap[v].parent = testNode
+					pathMap[v].pCloseLoc = #closedSet
+					pathMap[v].gScore = tempGScore
+					pathMap[v].fScore = 
+						pathMap[v].hScore + tempGScore
+					openSet:insert(pathMap[v].fScore, pathMap[v])
+				elseif tempGScore < pathMap[v].gScore then
+					pathMap[v].parent = testNode
+					pathMap[v].gScore = tempGScore
+					pathMap[v].fScore = 
+						pathMap[v].hScore + tempGScore
+				end
+			end
+		end
+	end
+	-- Returns an empty table if it failed to find any path to the exit node
+	return pathMap
 end
