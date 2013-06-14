@@ -26,6 +26,7 @@
 
 require("table-save")
 require("level")
+Timer = require("lib.timer")
 
 local fps = 0					-- Frames Per Second
 local fpsCount = 0				-- FPS count of the current second
@@ -56,7 +57,7 @@ end
 
 function love.load() 
 	-- load level
-	level = Level.create("lvl3.tmx")
+	level = Level.create("lvl0.tmx")
 
 	-- load music
 	--auBGM = love.audio.newSource("res/sound/music.ogg","stream")
@@ -86,6 +87,8 @@ end
 function love.update(dt)
 	-- level update
 	level:update(dt)
+
+	Timer.update(dt)
 
 	-- Count the frames per second
 	fpsTime = fpsTime + dt

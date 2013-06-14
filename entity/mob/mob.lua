@@ -6,7 +6,6 @@
 -- @module Mob
 require("entity.entity")
 
-
 --- Mob Class, subclass of `Entity`
 -- @type Mob
 Mob = class('Mob', Entity)
@@ -49,6 +48,8 @@ function Mob:initialize(x,y,speed,life,state,sprites,animations,anchor,quadColli
 
 	self.life = life						-- Amount of live
 	self.dest = {x=nil,y=nil,fScore=nil}
+	self.timerToReachPos = nil
+	self.timerMarginOfError = 2
 end
 
 
@@ -128,6 +129,9 @@ end
 
 --- Updates the attribute self.dest to next closed point
 function Mob:updateDest()
+		if self.timerToReachPos ~= nil then 
+			Timer.cancel(self.timerToReachPos)
+		end
 
    		local startPos = (self.tile.y * self.level.map.width) + self.tile.x
 
@@ -150,6 +154,10 @@ function Mob:updateDest()
 				self.dest.x, self.dest.y = level:tileToCoords(pathMap[v].col, 
 															  pathMap[v].row)
 				self.dest.fScore = pathMap[v].fScore
+
+				local time = (distances[_]/self.speed)+self.timerMarginOfError
+				self.timerToReachPos = Timer.add(time, function() self:updateDest() end)
+
 				break
 			end
 		end

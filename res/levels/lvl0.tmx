@@ -53,5 +53,46 @@
     <property name="type" value="mummy"/>
    </properties>
   </object>
+  <object x="288" y="384"/>
+  <object x="288" y="384"/>
+  <object name="bat" type="spawn" x="288" y="352" width="32" height="32">
+   <properties>
+    <property name="type" value="bat"/>
+   </properties>
+  </object>
+  <object x="288" y="416"/>
+  <object x="288" y="416"/>
+  <object x="288" y="416"/>
+  <object name="bat" type="spawn" x="288" y="384" width="32" height="32">
+   <properties>
+    <property name="type" value="bat"/>
+   </properties>
+  </object>
+  <object x="288" y="448"/>
+  <object name="bat" type="spawn" x="288" y="416" width="32" height="32">
+   <properties>
+    <property name="type" value="bat"/>
+   </properties>
+  </object>
+  <object name="bat" type="spawn" x="288" y="448" width="32" height="32">
+   <properties>
+    <property name="type" value="bat"/>
+   </properties>
+  </object>
+  <object name="bat" type="spawn" x="288" y="480" width="32" height="32">
+   <properties>
+    <property name="type" value="bat"/>
+   </properties>
+  </object>
+  <object name="bat" type="spawn" x="288" y="512" width="32" height="32">
+   <properties>
+    <property name="type" value="bat"/>
+   </properties>
+  </object>
+  <object name="bat" type="spawn" x="288" y="544" width="32" height="32">
+   <properties>
+    <property name="type" value="bat"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

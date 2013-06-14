@@ -21,7 +21,6 @@ require("entity.player")
 require("entity.mob.mummy")
 require("entity.mob.bat")
 camera = require("lib.camera")
-Timer = require("lib.timer")
 
 --- Level Class. 
 -- @type Level
@@ -98,8 +97,6 @@ function Level:update(dt)
 
 	-- update camera
 	self.cam:lookAt(self.player.x, self.player.y)
-
-	Timer.update(dt)
 end
 
 --- **Debug function**.
