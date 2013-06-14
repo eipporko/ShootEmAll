@@ -47,7 +47,7 @@ function Mob:initialize(x,y,speed,life,state,sprites,animations,anchor,quadColli
 
 	self.dieAnimation = anim8.newAnimation('once', Mob.DIE_GRID('1-11,1','1-6,2'), 0.1)
 
-	self.life = life				-- Amount of live
+	self.life = life						-- Amount of live
 	self.dest = {x=nil,y=nil,fScore=nil}
 end
 
@@ -126,7 +126,7 @@ function Mob:kill()
 end
 
 
---- Updates the attribute self.dest
+--- Updates the attribute self.dest to next closed point
 function Mob:updateDest()
 
    		local startPos = (self.tile.y * self.level.map.width) + self.tile.x

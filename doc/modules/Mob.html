@@ -84,8 +84,16 @@
 	<td class="summary">Kill state.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#Mob:followPath">Mob:followPath&nbsp;(dt)</a></td>
-	<td class="summary">Makes the mob follow the path described in his attribute path.</td>
+	<td class="name" nowrap><a href="#Mob:updateDest">Mob:updateDest&nbsp;()</a></td>
+	<td class="summary">Updates the attribute self.dest to next closed point</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Mob:isInDest">Mob:isInDest&nbsp;()</a></td>
+	<td class="summary">Checks if the <a href="../modules/Mob.html#">Mob</a>  is in dest</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Mob:moveToDest">Mob:moveToDest&nbsp;(dt)</a></td>
+	<td class="summary">Moves the mob to dest coords</td>
 	</tr>
 </table>
 
@@ -183,11 +191,42 @@
 
 </dd>
     <dt>
-    <a name = "Mob:followPath"></a>
-    <strong>Mob:followPath&nbsp;(dt)</strong>
+    <a name = "Mob:updateDest"></a>
+    <strong>Mob:updateDest&nbsp;()</strong>
     </dt>
     <dd>
-    Makes the mob follow the path described in his attribute path.
+    Updates the attribute self.dest to next closed point
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Mob:isInDest"></a>
+    <strong>Mob:isInDest&nbsp;()</strong>
+    </dt>
+    <dd>
+    Checks if the <a href="../modules/Mob.html#">Mob</a>  is in dest
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        true if is in dest, false otherwise
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Mob:moveToDest"></a>
+    <strong>Mob:moveToDest&nbsp;(dt)</strong>
+    </dt>
+    <dd>
+    Moves the mob to dest coords
 
     <h3>Parameters:</h3>
     <ul>

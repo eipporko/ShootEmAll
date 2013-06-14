@@ -77,7 +77,7 @@ end
 --- "stop" state of the state machine. The bat is stoped.
 -- @param dt delta time
 function Bat:_stopState(dt)
-	if self.dest.fScore ~= nil and self.dest.fScore > 0 then
+	if self.x ~= self.dest.x or self.y ~= self.dest.y then
 		self:_changeState("walk")
 	end
 

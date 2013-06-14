@@ -14,7 +14,32 @@
   </tile>
   <tile id="52">
    <properties>
-    <property name="obstacle" value=""/>
+    <property name="obstacle" value="true"/>
+   </properties>
+  </tile>
+  <tile id="55">
+   <properties>
+    <property name="obstacle" value="true"/>
+   </properties>
+  </tile>
+  <tile id="56">
+   <properties>
+    <property name="obstacle" value="true"/>
+   </properties>
+  </tile>
+  <tile id="57">
+   <properties>
+    <property name="obstacle" value="true"/>
+   </properties>
+  </tile>
+  <tile id="66">
+   <properties>
+    <property name="obstacle" value="true"/>
+   </properties>
+  </tile>
+  <tile id="69">
+   <properties>
+    <property name="obstacle" value="true"/>
    </properties>
   </tile>
   <tile id="70">
@@ -60,7 +85,7 @@
  </layer>
  <layer name="0" width="11" height="11">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA2NkYGBgJBKzQDG6uASR+t2R2I1A3ESC3cRgEyLk5uPwAzF4Dg5zQdgUyhcHYh4kNrra6Whi6GpogQEAGTA25AEAAA==
+   H4sIAAAAAAAAA2NkYGBgJBKzQDG6uASR+t2R2I1A3ESC3diwIBrfhAi187H4Ad0cXHJzoLQllLaC2mmCpE4ciHmQ2Ojum44mhq4GG3YDYmcKwgkAAim0wuQBAAA=
   </data>
  </layer>
  <layer name="1" width="11" height="11">
@@ -75,13 +100,13 @@
    </properties>
   </object>
   <object x="224" y="128"/>
-  <object name="mummy" type="spawn" x="0" y="0" width="32" height="32">
+  <object x="0" y="0"/>
+  <object x="352" y="352"/>
+  <object x="-352" y="32"/>
+  <object name="mummy" type="spawn" x="64" y="256" width="32" height="32">
    <properties>
     <property name="type" value="mummy"/>
    </properties>
   </object>
-  <object x="0" y="0"/>
-  <object x="352" y="352"/>
-  <object x="-352" y="32"/>
  </objectgroup>
 </map>

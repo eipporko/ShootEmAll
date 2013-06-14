@@ -157,6 +157,10 @@
 	<td class="name" nowrap><a href="#Level:checkCollideEntities">Level:checkCollideEntities&nbsp;(entity, x, y)</a></td>
 	<td class="summary">Checks if an <a href="../modules/Entity.html#">Entity</a>  is colliding with another one.</td>
 	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Level:numOfMobsInTile">Level:numOfMobsInTile&nbsp;(tile)</a></td>
+	<td class="summary">Returns the number of mobs in a tile</td>
+	</tr>
 </table>
 <h2><a href="#A__functions">A* functions </a></h2>
 <table class="function_list">
@@ -167,6 +171,10 @@
 	<tr>
 	<td class="name" nowrap><a href="#Level:flattenMap">Level:flattenMap&nbsp;()</a></td>
 	<td class="summary">Flat the bidimensional array of the map.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Level:floodFill">Level:floodFill&nbsp;(pathMap, startPos)</a></td>
+	<td class="summary">Uses flood fill algorithm to create a navigation graph.</td>
 	</tr>
 </table>
 
@@ -566,6 +574,30 @@
 
 
 </dd>
+    <dt>
+    <a name = "Level:numOfMobsInTile"></a>
+    <strong>Level:numOfMobsInTile&nbsp;(tile)</strong>
+    </dt>
+    <dd>
+    Returns the number of mobs in a tile
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tile</span>
+
+</li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        number of entities
+    </ol>
+
+
+
+
+</dd>
 </dl>
     <h2><a name="A__functions"></a>A* functions </h2>
         A* functions.
@@ -610,6 +642,32 @@
     <ol>
 
         table with nodes created with newNode (AStar lib).
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Level:floodFill"></a>
+    <strong>Level:floodFill&nbsp;(pathMap, startPos)</strong>
+    </dt>
+    <dd>
+    Uses flood fill algorithm to create a navigation graph.
+ startPos will be the &ldquo;seed&rdquo; of the algorithm.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">pathMap</span>
+         the flattened path map</li>
+        <li><span class="parameter">startPos</span>
+         the start node&rsquo;s position, relative to the pathMap</li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        pathMap a navigation graph
     </ol>
 
 

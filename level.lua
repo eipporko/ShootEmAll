@@ -69,7 +69,7 @@ function Level.create(tmxPath)
 
 	-- initial flat map
 	local exitPos = (lvl.player.tile.y * lvl.map.width) + lvl.player.tile.x
-	lvl.pathMap = lvl:startPathing(lvl:flattenMap(), exitPos)
+	lvl.pathMap = lvl:floodFill(lvl:flattenMap(), exitPos)
 
 	-- create a camera
 	lvl.cam = camera(0, 0, global.cameraZoom, 0)
@@ -93,7 +93,7 @@ function Level:update(dt)
 	-- Only flat the map when the player change her position
 	if self.player.flagUpdateBucket==true then
 		local exitPos = (self.player.tile.y * self.map.width) + self.player.tile.x
-		self.pathMap = self:startPathing(self:flattenMap(), exitPos)
+		self.pathMap = self:floodFill(self:flattenMap(), exitPos)
 	end
 
 	-- update camera
@@ -448,7 +448,7 @@ function Level:checkCollideEntities(entity,x,y)
 end
 
 
---- Returns the number of mobs in a specified tile
+--- Returns the number of mobs in a tile
 -- @param tile
 -- @return number of entities
 function Level:numOfMobsInTile(tile)
@@ -545,13 +545,12 @@ function Level:flattenMap()
 	return mapFlat
 end
 
---- The A* search algorithm. Using imported heuristics and distance values
--- between individual nodes, this finds the shortest path from the start
--- node's position to the exit node's position.
--- @param pathMap:	 the flattened path map
--- @param startPos:	 the start node's position, relative to the pathMap
--- #returns pathMap: the found path (or empty if it failed to find a path)
-function Level:startPathing(pathMap, startPos)
+--- Uses flood fill algorithm to create a navigation graph.
+-- startPos will be the "seed" of the algorithm. 
+-- @param pathMap the flattened path map
+-- @param startPos the start node's position, relative to the pathMap
+-- @return pathMap a navigation graph
+function Level:floodFill(pathMap, startPos)
 	pathMap[startPos].parent = pathMap[startPos]
 	-- Initialize the gScore and fScore of the start node
 	pathMap[startPos].gScore = 0
