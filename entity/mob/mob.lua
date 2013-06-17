@@ -134,28 +134,27 @@ function Mob:updateDest()
 		end
 
    		local startPos = (self.tile.y * self.level.map.width) + self.tile.x
-
 		local pathMap = self.level.pathMap
    		local fScore = pathMap[startPos].fScore
-   		local neighbors = pathMap[startPos].neighbors
-   		local distances = pathMap[startPos].distance
+   		local fScoreNeighbors = {}
+   		local neighbors = shallowcopy(pathMap[startPos].neighbors)
 
-   		local neighborsCpy = shallowcopy(neighbors)
-
-   		for _,v in pairs(neighborsCpy) do
-   			pathMap[v].fScore = pathMap[v].fScore + self.level:numOfMobsInTile({x=pathMap[v].col,y=pathMap[v].row})
+   		for _,v in pairs(neighbors) do
+   			fScoreNeighbors[v] = pathMap[v].fScore + self.level:numOfMobsInTile({x=pathMap[v].col,y=pathMap[v].row})
    		end
 
 		local function neighborsSort(a,b) return pathMap[a].fScore < pathMap[b].fScore end
-   		table.sort(neighborsCpy, neighborsSort) 
+   		table.sort(neighbors, neighborsSort) 
 
-		for _,v in pairs(neighborsCpy) do
-			if pathMap[v].fScore < fScore then
+		for _,v in pairs(neighbors) do
+			if fScoreNeighbors[v] < fScore then
 				self.dest.x, self.dest.y = level:tileToCoords(pathMap[v].col, 
 															  pathMap[v].row)
-				self.dest.fScore = pathMap[v].fScore
+				self.dest.fScore = fScoreNeighbors[v]
 
-				local time = (distances[_]/self.speed)+self.timerMarginOfError
+				local distance = vector.new(self.dest.x-self.x,self.dest.y-self.y)
+
+				local time = (distance:len()/self.speed)+self.timerMarginOfError
 				self.timerToReachPos = Timer.add(time, function() self:updateDest() end)
 
 				break
