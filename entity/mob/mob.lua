@@ -44,12 +44,22 @@ local floor = math.floor
 function Mob:initialize(x,y,speed,life,state,sprites,animations,anchor,quadCollider,level)
 	Entity.initialize(self,x,y,speed,state,sprites,animations,anchor,quadCollider,level)
 
-	self.dieAnimation = anim8.newAnimation('once', Mob.DIE_GRID('1-11,1','1-6,2'), 0.1)
+	self.dieAnimation = anim8.newAnimation(Mob.DIE_GRID('1-11',1,'1-6',2), 0.1, 'pauseAtEnd')
 
 	self.life = life						-- Amount of live
 	self.dest = {x=nil,y=nil,fScore=nil}
 	self.timerToReachPos = nil
 	self.timerMarginOfError = 2
+
+	-- steering behaviors props
+	self.vectorFacing = nil
+	self.vectorSide = nil
+	self.mass = nil
+	self.maxSpeed = nil
+	self.maxForce = nil
+	self.maxTurnRate = nil
+
+
 end
 
 
@@ -66,7 +76,7 @@ function Mob:update(dt)
 	-- Mob is dead
 	if self.alive == false then
 		self.animations[self.state..self.facing]:update(dt)
-		if self.dieAnimation.status == "finished" then
+		if self.dieAnimation.status == "paused" then
 			self:delete()
 		end
 
@@ -147,7 +157,7 @@ function Mob:updateDest()
    		table.sort(neighbors, neighborsSort) 
 
 		for _,v in pairs(neighbors) do
-			if fScoreNeighbors[v] < fScore then
+			--if fScoreNeighbors[v] < fScore then
 				self.dest.x, self.dest.y = level:tileToCoords(pathMap[v].col, 
 															  pathMap[v].row)
 				self.dest.fScore = fScoreNeighbors[v]
@@ -158,7 +168,7 @@ function Mob:updateDest()
 				self.timerToReachPos = Timer.add(time, function() self:updateDest() end)
 
 				break
-			end
+			--end
 		end
 end
 

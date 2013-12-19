@@ -57,7 +57,7 @@ end
 
 function love.load() 
 	-- load level
-	level = Level.create("lvl0.tmx")
+	level = Level.create("lvl3.tmx")
 
 	-- load music
 	--auBGM = love.audio.newSource("res/sound/music.ogg","stream")

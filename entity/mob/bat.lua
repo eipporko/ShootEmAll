@@ -55,9 +55,9 @@ Bat.static.BOXCOLLIDER = {x1=8,y1=24,x2=24,y2=32}
 function Bat:initialize(x,y,level)
 	local animations = {
 		-- stop
-		stop0 = anim8.newAnimation('loop', Bat.GRID('1-4,1'), 0.1),
+		stop0 = anim8.newAnimation(Bat.GRID('1-4',1), 0.1),
 		-- walk
-		walk0 = anim8.newAnimation('loop', Bat.GRID('1-4,1'), 0.1)
+		walk0 = anim8.newAnimation(Bat.GRID('1-4',1), 0.1)
 
 	}
 

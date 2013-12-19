@@ -22,22 +22,22 @@ Player.static.GRID = anim8.newGrid(32, 32, Player.SPRITES:getWidth(), Player.SPR
 
 -- Set of animations for the player depending on the state and where is looking for.
 Player.static.ANIMATIONS = {
-	stop0 = anim8.newAnimation('loop', Player.GRID('1,5'), 0.1), 	-- Player is stopped looking up (0º)
-	stop1 = anim8.newAnimation('loop', Player.GRID('1,6'), 0.1), 	-- Player is stopped looking right 45º 
-	stop2 = anim8.newAnimation('loop', Player.GRID('1,7'), 0.1), 	-- Player is stopped looking right 90º
-	stop3 = anim8.newAnimation('loop', Player.GRID('1,8'), 0.1), 	-- Player is stopped looking right 135º  
-	stop4 = anim8.newAnimation('loop', Player.GRID('1,1'), 0.1), 	-- Player is stopped looking down (180º) 
-	stop5 = anim8.newAnimation('loop', Player.GRID('1,2'), 0.1), 	-- Player is stopped looking left -135º
-	stop6 = anim8.newAnimation('loop', Player.GRID('1,3'), 0.1), 	-- Player is stopped looking left -90º
-	stop7 = anim8.newAnimation('loop', Player.GRID('1,4'), 0.1), 	-- Player is stopped looking left -45º
-	walk0 = anim8.newAnimation('loop', Player.GRID('1-6,5'), 0.1),	-- Player is walking looking up (0º)
-	walk1 = anim8.newAnimation('loop', Player.GRID('1-6,6'), 0.1),	-- Player is walking looking right 45º
-	walk2 = anim8.newAnimation('loop', Player.GRID('1-6,7'), 0.1),	-- Player is walking looking right 90º
-	walk3 = anim8.newAnimation('loop', Player.GRID('1-6,8'), 0.1),	-- Player is walking looking right 135º
-	walk4 = anim8.newAnimation('loop', Player.GRID('1-6,1'), 0.1),	-- Player is walking looking down (180º)
-	walk5 = anim8.newAnimation('loop', Player.GRID('1-6,2'), 0.1),	-- Player is walking looking left -135º
-	walk6 = anim8.newAnimation('loop', Player.GRID('1-6,3'), 0.1),	-- Player is walking looking left -90º
-	walk7 = anim8.newAnimation('loop', Player.GRID('1-6,4'), 0.1)	-- Player is walking looking left -45º
+	stop0 = anim8.newAnimation(Player.GRID(1,5), 0.1), 	-- Player is stopped looking up (0º)
+	stop1 = anim8.newAnimation(Player.GRID(1,6), 0.1), 	-- Player is stopped looking right 45º 
+	stop2 = anim8.newAnimation(Player.GRID(1,7), 0.1), 	-- Player is stopped looking right 90º
+	stop3 = anim8.newAnimation(Player.GRID(1,8), 0.1), 	-- Player is stopped looking right 135º  
+	stop4 = anim8.newAnimation(Player.GRID(1,1), 0.1), 	-- Player is stopped looking down (180º) 
+	stop5 = anim8.newAnimation(Player.GRID(1,2), 0.1), 	-- Player is stopped looking left -135º
+	stop6 = anim8.newAnimation(Player.GRID(1,3), 0.1), 	-- Player is stopped looking left -90º
+	stop7 = anim8.newAnimation(Player.GRID(1,4), 0.1), 	-- Player is stopped looking left -45º
+	walk0 = anim8.newAnimation(Player.GRID('1-6',5), 0.1),	-- Player is walking looking up (0º)
+	walk1 = anim8.newAnimation(Player.GRID('1-6',6), 0.1),	-- Player is walking looking right 45º
+	walk2 = anim8.newAnimation(Player.GRID('1-6',7), 0.1),	-- Player is walking looking right 90º
+	walk3 = anim8.newAnimation(Player.GRID('1-6',8), 0.1),	-- Player is walking looking right 135º
+	walk4 = anim8.newAnimation(Player.GRID('1-6',1), 0.1),	-- Player is walking looking down (180º)
+	walk5 = anim8.newAnimation(Player.GRID('1-6',2), 0.1),	-- Player is walking looking left -135º
+	walk6 = anim8.newAnimation(Player.GRID('1-6',3), 0.1),	-- Player is walking looking left -90º
+	walk7 = anim8.newAnimation(Player.GRID('1-6',4), 0.1)	-- Player is walking looking left -45º
 }
 
 -- Speed value (px/sec).

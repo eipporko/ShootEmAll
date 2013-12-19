@@ -22,14 +22,14 @@ Bullet.static.GRID = anim8.newGrid(16, 16, Bullet.SPRITES:getWidth(), Bullet.SPR
 
 -- Set of animations for the bullets depending on the state and where is .
 Bullet.static.ANIMATIONS = {
-	bullet0 = anim8.newAnimation('loop', Bullet.GRID('5,1'), 0.1), -- 0º
-	bullet1 = anim8.newAnimation('loop', Bullet.GRID('6,1'), 0.1), -- 45º 
-	bullet2 = anim8.newAnimation('loop', Bullet.GRID('7,1'), 0.1), -- 90º
-	bullet3 = anim8.newAnimation('loop', Bullet.GRID('8,1'), 0.1), -- 135º  
-	bullet4 = anim8.newAnimation('loop', Bullet.GRID('1,1'), 0.1), -- 180º
-	bullet5 = anim8.newAnimation('loop', Bullet.GRID('2,1'), 0.1), -- -135º
-	bullet6 = anim8.newAnimation('loop', Bullet.GRID('3,1'), 0.1), -- -90º
-	bullet7 = anim8.newAnimation('loop', Bullet.GRID('4,1'), 0.1)  -- -45º
+	bullet0 = anim8.newAnimation(Bullet.GRID(5,1), 0.1), -- 0º
+	bullet1 = anim8.newAnimation(Bullet.GRID(6,1), 0.1), -- 45º 
+	bullet2 = anim8.newAnimation(Bullet.GRID(7,1), 0.1), -- 90º
+	bullet3 = anim8.newAnimation(Bullet.GRID(8,1), 0.1), -- 135º  
+	bullet4 = anim8.newAnimation(Bullet.GRID(1,1), 0.1), -- 180º
+	bullet5 = anim8.newAnimation(Bullet.GRID(2,1), 0.1), -- -135º
+	bullet6 = anim8.newAnimation(Bullet.GRID(3,1), 0.1), -- -90º
+	bullet7 = anim8.newAnimation(Bullet.GRID(4,1), 0.1)  -- -45º
 }
 
 -- Speed value (px/sec).

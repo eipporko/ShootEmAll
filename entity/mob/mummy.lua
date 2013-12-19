@@ -53,15 +53,15 @@ Mummy.static.BOXCOLLIDER = {x1=16,y1=31,x2=32,y2=39}
 function Mummy:initialize(x,y,level)
 	local animations = {
 		-- stop
-		stop0 = anim8.newAnimation('loop', Mummy.GRID('1,4'), 0.1),
-		stop1 = anim8.newAnimation('loop', Mummy.GRID('1,3'), 0.1),  
-		stop2 = anim8.newAnimation('loop', Mummy.GRID('1,2'), 0.1), 
-		stop3 = anim8.newAnimation('loop', Mummy.GRID('1,1'), 0.1),   
+		stop0 = anim8.newAnimation(Mummy.GRID(1,4), 0.1),
+		stop1 = anim8.newAnimation(Mummy.GRID(1,3), 0.1),  
+		stop2 = anim8.newAnimation(Mummy.GRID(1,2), 0.1), 
+		stop3 = anim8.newAnimation(Mummy.GRID(1,1), 0.1),   
 		-- walk
-		walk0 = anim8.newAnimation('loop', Mummy.GRID('1-4,4'), 0.2),
-		walk1 = anim8.newAnimation('loop', Mummy.GRID('1-4,3'), 0.2),
-		walk2 = anim8.newAnimation('loop', Mummy.GRID('1-4,2'), 0.2),
-		walk3 = anim8.newAnimation('loop', Mummy.GRID('1-4,1'), 0.2)
+		walk0 = anim8.newAnimation(Mummy.GRID('1-4',4), 0.2),
+		walk1 = anim8.newAnimation(Mummy.GRID('1-4',3), 0.2),
+		walk2 = anim8.newAnimation(Mummy.GRID('1-4',2), 0.2),
+		walk3 = anim8.newAnimation(Mummy.GRID('1-4',1), 0.2)
 	}
 	
 	Mob.initialize(self,x,y,Mummy.SPEED,Mummy.LIFE,"stop",Mummy.SPRITES,animations,Mummy.ANCHOR,Mummy.BOXCOLLIDER,level)

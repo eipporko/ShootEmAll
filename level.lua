@@ -110,10 +110,10 @@ function Level:drawQuadCollider(entity)
 
 	if quadCollider~=nil then
 		love.graphics.setColor(255,0,0)
-		love.graphics.quad("line", entity.x+entity.quadCollider.x1, entity.y+entity.quadCollider.y1, 
-								   entity.x+entity.quadCollider.x2, entity.y+entity.quadCollider.y1,
-								   entity.x+entity.quadCollider.x2, entity.y+entity.quadCollider.y2,
-								   entity.x+entity.quadCollider.x1, entity.y+entity.quadCollider.y2)
+		love.graphics.polygon("line", entity.x+entity.quadCollider.x1, entity.y+entity.quadCollider.y1, 
+								      entity.x+entity.quadCollider.x2, entity.y+entity.quadCollider.y1,
+								      entity.x+entity.quadCollider.x2, entity.y+entity.quadCollider.y2,
+								      entity.x+entity.quadCollider.x1, entity.y+entity.quadCollider.y2)
 	end
 
 	love.graphics.setColor(colorSaved.r,colorSaved.g,colorSaved.b)
@@ -446,7 +446,7 @@ end
 
 
 --- Returns the number of mobs in a tile
--- @param tile
+-- @tparam {x,y} tile a table with an isometric grid tile position
 -- @return number of entities
 function Level:numOfMobsInTile(tile)
 	local numOfMobs = 0
