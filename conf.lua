@@ -1,10 +1,10 @@
 function love.conf(t)
-	t.title = "Shooter Protoype"
-    t.author = "David Antunez (eipporko)"
-    t.url = "http://with2balls.com"
+    t.version = "0.9.0"
     t.console = false
-    t.screen.width = 800	
-    t.screen.height = 600
-    t.screen.fullscreen = false
-   	t.screen.vsync = true
+
+    t.window.title = "Shooter Protoype"
+    t.window.width = 800	
+    t.window.height = 600
+    t.window.fullscreen = false
+   	t.window.vsync = true
 end
