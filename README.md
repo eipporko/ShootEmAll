@@ -58,3 +58,11 @@ love .
 ```
 
 ### Windows
+Download ShootEmAll source code and you will have two ways of running:
+
+a. Running *LOVE* and drag *ShootEmAll* folder on it.
+
+b. Opening a CMD terminal:
+```
+"C:\Program Files\LOVE\love.exe" "C:\games\ShootEmAll"
+```
