@@ -1,6 +1,6 @@
 ---------------
 -- ShootEmAll.  
--- Prototype for löve 2d 0.8.0
+-- Prototype for löve 2d 0.9.0
 --
 -- [Github Project](https://github.com/eipporko/ShootEmAll)
 --
@@ -57,7 +57,7 @@ end
 
 function love.load() 
 	-- load level
-	level = Level.create("lvl3.tmx")
+	level = Level.create("lvl0.tmx")
 
 	-- load music
 	--auBGM = love.audio.newSource("res/sound/music.ogg","stream")
