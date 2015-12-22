@@ -28,7 +28,7 @@ Run the next command lines in a terminal window.
 sudo add-apt-repository ppa:bartbes/love-stable
 sudo apt-get update
 sudo apt-get upgrade
-sudo apt-get install love2d
+sudo apt-get install love
 ```
 
 ### Mac OS X 10.6+
