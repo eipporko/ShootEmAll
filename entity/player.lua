@@ -1,6 +1,6 @@
 --- Player class, subclass of `Entity`.
 --
---  ![Texto alternativo](../../res/art/player/lord_lard_sheet.png "Player Sprites")  
+--  ![Texto alternativo](../../res/art/player/lord_lard_sheet.png "Player Sprites")
 --
 --	SPEED = 100
 --	STATE = 'stop|walk'
@@ -23,10 +23,10 @@ Player.static.GRID = anim8.newGrid(32, 32, Player.SPRITES:getWidth(), Player.SPR
 -- Set of animations for the player depending on the state and where is looking for.
 Player.static.ANIMATIONS = {
 	stop0 = anim8.newAnimation(Player.GRID(1,5), 0.1), 	-- Player is stopped looking up (0º)
-	stop1 = anim8.newAnimation(Player.GRID(1,6), 0.1), 	-- Player is stopped looking right 45º 
+	stop1 = anim8.newAnimation(Player.GRID(1,6), 0.1), 	-- Player is stopped looking right 45º
 	stop2 = anim8.newAnimation(Player.GRID(1,7), 0.1), 	-- Player is stopped looking right 90º
-	stop3 = anim8.newAnimation(Player.GRID(1,8), 0.1), 	-- Player is stopped looking right 135º  
-	stop4 = anim8.newAnimation(Player.GRID(1,1), 0.1), 	-- Player is stopped looking down (180º) 
+	stop3 = anim8.newAnimation(Player.GRID(1,8), 0.1), 	-- Player is stopped looking right 135º
+	stop4 = anim8.newAnimation(Player.GRID(1,1), 0.1), 	-- Player is stopped looking down (180º)
 	stop5 = anim8.newAnimation(Player.GRID(1,2), 0.1), 	-- Player is stopped looking left -135º
 	stop6 = anim8.newAnimation(Player.GRID(1,3), 0.1), 	-- Player is stopped looking left -90º
 	stop7 = anim8.newAnimation(Player.GRID(1,4), 0.1), 	-- Player is stopped looking left -45º
@@ -50,7 +50,7 @@ Player.static.ANCHOR = {x=16,y=32}
 
 -- Bound box.
 -- In function of the (0,0) coordinate of the sprite.
--- @field x1 top left x 
+-- @field x1 top left x
 -- @field y1 top left y
 -- @field x2 bottom right x
 -- @field y2 bottom right y
@@ -63,9 +63,9 @@ imgMouse:setFilter("nearest","nearest")
 
 --- Initialize the object `Player`.
 --
--- Don't call this method directly!, this method is called automatically when 
+-- Don't call this method directly!, this method is called automatically when
 -- the class is instanciated using the method new.
--- @usage 
+-- @usage
 -- Player:new(x,y,level)
 -- @param x world x coordinate
 -- @param y world y coordinate
@@ -95,7 +95,7 @@ function Player:update(dt)
 	-- state machine
 	self.action[self.state](dt)
 
-	-- 
+	--
 	self:checkCollision()
 
 	-- playerAnimation update
@@ -122,7 +122,7 @@ function Player:_aiming()
 	mouseWindowCoords.x, mouseWindowCoords.y = love.mouse.getPosition()
 	mouseWorldCoords.x, mouseWorldCoords.y = cam:worldCoords(mouseWindowCoords.x*camScale, mouseWindowCoords.y*camScale)
 	vectMouse.x = math.floor(mouseWorldCoords.x) - math.floor(self.x)
-	vectMouse.y = math.floor(self.y) - math.floor(mouseWorldCoords.y) 
+	vectMouse.y = math.floor(self.y) - math.floor(mouseWorldCoords.y)
 	vectMouse = vector.new(vectMouse.x,vectMouse.y):normalized()
 	self.aimVector = vectMouse
 
@@ -139,8 +139,8 @@ end
 -- @param dt delta time
 -- @param aimVector direction vector
 function Player:_handleWeapon(dt, aimVector)
-	if love.mouse.isDown("l") then self.weapon:primaryFire(dt, aimVector) end
-	if not love.mouse.isDown("l") then self.weapon:releaseFire() end
+	if love.mouse.isDown(1) then self.weapon:primaryFire(dt, aimVector) end
+	if not love.mouse.isDown(1) then self.weapon:releaseFire() end
 end
 
 
@@ -161,7 +161,7 @@ end
 --- "walk" state of the state machine. The player is walking.
 -- @param dt delta time
 function Player:_walkState(dt)
-	
+
 	local vectUp, vectDown, vectLeft, vectRight = 0, 0, 0, 0
 	if love.keyboard.isDown("w") then vectUp = -1 end
 	if love.keyboard.isDown("s") then vectDown = 1 end
@@ -170,20 +170,20 @@ function Player:_walkState(dt)
 	if not love.keyboard.isDown("w", "s", "a", "d" ) then
 		self:_changeState("stop")
 		return
-	end	
-	
+	end
+
 	-- calculate vector facing
 	vectY = vectUp + vectDown
 	vectX = vectLeft + vectRight
 	if math.abs(vectX) + math.abs(vectY) > 1 then
-		vectX = vectX*0.8944	
-		vectY = vectY*0.4472	
+		vectX = vectX*0.8944
+		vectY = vectY*0.4472
 	end
 
 	-- calculate new position
 	newX = self.x + (vectX*self.speed*dt)
 	newY = self.y + (vectY*self.speed*dt)
-	
+
 	-- check collision
 	if not self.level:checkWallCollision(self,newX, newY) then
 		self:moveAt(newX,newY)

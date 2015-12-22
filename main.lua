@@ -1,12 +1,12 @@
 ---------------
--- ShootEmAll.  
--- Prototype for löve 2d 0.9.0
+-- ShootEmAll.
+-- Prototype for löve 2d 0.10.0
 --
 -- [Github Project](https://github.com/eipporko/ShootEmAll)
 --
 --	Instructions
 --
---	The goal of the game is to survive as long as you can.  
+--	The goal of the game is to survive as long as you can.
 --	When you kill a monster you can obtain cash and buy power ups or buildings.
 --
 --	Controls
@@ -55,7 +55,7 @@ function shallowcopy(orig)
     return copy
 end
 
-function love.load() 
+function love.load()
 	-- load level
 	level = Level.create("lvl0.tmx")
 
@@ -66,7 +66,7 @@ function love.load()
 	--auBGM:play()
 end
 
-function love.draw()	
+function love.draw()
 	-- draw level
 	level:draw()
 
