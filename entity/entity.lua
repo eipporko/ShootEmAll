@@ -1,5 +1,5 @@
---- Main *superclass* for all the objects who wants to have a minimal effect or interaction with other objects inside the level map.  
---##### Example of Main Entities: 
+--- Main *superclass* for all the objects who wants to have a minimal effect or interaction with other objects inside the level map.
+--##### Example of Main Entities:
 --
 -- - Player
 -- - Mobs
@@ -7,11 +7,11 @@
 -- - Collectable items...
 -- @module Entity
 
-require("lib.middleclass")
-anim8 = require("lib.anim8")
-vector = require("lib.vector")
+class = require("lib.middleclass.middleclass")
+anim8 = require("lib.anim8.anim8")
+vector = require("lib.hump.vector")
 
---- Entity Class. 
+--- Entity Class.
 -- @type Entity
 Entity = class("Entity")
 
@@ -26,7 +26,7 @@ Entity = class("Entity")
 -- @param sprites `Image` object that contains SPRITES used in animations.
 -- @param animations dictionary of animations created with anim8 by kikito, the key is the stateName+facingPosition
 -- @tparam {x,y} anchor table that define the sprite anchor point.
--- @tparam {x1,y1,x2,y2} quadCollider table with two pair of coordinates. 
+-- @tparam {x1,y1,x2,y2} quadCollider table with two pair of coordinates.
 -- @param level `Level` where the object belongs
 function Entity:initialize(x,y,speed,state,sprites,animations,anchor,quadCollider,level)
 	-- inicialization
@@ -43,17 +43,17 @@ function Entity:initialize(x,y,speed,state,sprites,animations,anchor,quadCollide
 	self.sprites = sprites				-- tileset that contains the sprites
 	self.animations = animations		-- animations dictionary by state plus face direction
 	self.anchor = anchor 				-- offset applied to the sprite
-	self.level = level 					-- level 
+	self.level = level 					-- level
 
 	if quadCollider~=nil then
 		self.quadCollider = {
 			x1=quadCollider.x1-anchor.x, y1=quadCollider.y1-anchor.y,
 			x2=quadCollider.x2-anchor.x, y2=quadCollider.y2-anchor.y
 		} -- quadCollider referenced to the top left corner of Sprite instead to de anchor
-	else 
+	else
 		quadCollider = nil
 	end
-	 
+
 	-- add to level entities table
 	level.entities[self] = true
 

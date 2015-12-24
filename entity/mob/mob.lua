@@ -1,8 +1,8 @@
 --- Main superclass for design enemies, subclass of `Entity`.
--- 
+--
 -- In this case, all the mobs die with the same explosion.
 --
---  ![Texto alternativo](../../res/art/effects/fx_enemydie_64.png "Explosion")  
+--  ![Texto alternativo](../../res/art/effects/fx_enemydie_64.png "Explosion")
 -- @module Mob
 require("entity.entity")
 
@@ -39,7 +39,7 @@ local floor = math.floor
 -- @param sprites `Image` object that contains SPRITES used in animations.
 -- @param animations dictionary of animations created with anim8 by kikito, the key is the stateName+facingPosition
 -- @tparam {x,y} anchor table that define the sprite anchor point.
--- @tparam {x1,y1,x2,y2} quadCollider table with two pair of coordinates. 
+-- @tparam {x1,y1,x2,y2} quadCollider table with two pair of coordinates.
 -- @param level `Level` where the object belongs
 function Mob:initialize(x,y,speed,life,state,sprites,animations,anchor,quadCollider,level)
 	Entity.initialize(self,x,y,speed,state,sprites,animations,anchor,quadCollider,level)
@@ -65,7 +65,7 @@ end
 
 
 --- Update stage.
--- 
+--
 -- @param dt delta time
 function Mob:update(dt)
 
@@ -81,12 +81,12 @@ function Mob:update(dt)
 		end
 
 	-- Mob is alive
-	else	
+	else
 		-- key control
 		self.action[self.state](dt)
 
 		self:checkCollision()
-		
+
 		self.animations[self.state..self.facing]:update(dt)
 	end
 end
@@ -100,7 +100,7 @@ function Mob:checkCollision()
 		if (ent.class.name=="Bullet") then
 			if not self.stuned then
 				self.life = self.life - ent.damage
-				Timer.do_for(0.5, 
+				Timer.during(0.5,
 					function()
 	    				if self.alive and not self.stuned then self.stuned = true end
 					end,
@@ -123,8 +123,8 @@ function Mob:checkCollision()
 end
 
 
---- Kill state. 
--- The mob is dead and it's doing things like "ARGHHH, I'M DYING!!" before being destroyed. 
+--- Kill state.
+-- The mob is dead and it's doing things like "ARGHHH, I'M DYING!!" before being destroyed.
 function Mob:kill()
 	self.alive = false
 	self.stuned = false
@@ -139,7 +139,7 @@ end
 
 --- Updates the attribute self.dest to next closed point
 function Mob:updateDest()
-		if self.timerToReachPos ~= nil then 
+		if self.timerToReachPos ~= nil then
 			Timer.cancel(self.timerToReachPos)
 		end
 
@@ -154,18 +154,18 @@ function Mob:updateDest()
    		end
 
 		local function neighborsSort(a,b) return pathMap[a].fScore < pathMap[b].fScore end
-   		table.sort(neighbors, neighborsSort) 
+   		table.sort(neighbors, neighborsSort)
 
 		for _,v in pairs(neighbors) do
 			--if fScoreNeighbors[v] < fScore then
-				self.dest.x, self.dest.y = level:tileToCoords(pathMap[v].col, 
+				self.dest.x, self.dest.y = level:tileToCoords(pathMap[v].col,
 															  pathMap[v].row)
 				self.dest.fScore = fScoreNeighbors[v]
 
 				local distance = vector.new(self.dest.x-self.x,self.dest.y-self.y)
 
 				local time = (distance:len()/self.speed)+self.timerMarginOfError
-				self.timerToReachPos = Timer.add(time, function() self:updateDest() end)
+				self.timerToReachPos = Timer.every(time, function() self:updateDest() end)
 
 				break
 			--end
@@ -190,7 +190,7 @@ function Mob:moveToDest(dt)
 	local vectToDest = {} -- vector player-destiny
 
 	vectToDest.x = self.dest.x - self.x
-	vectToDest.y = self.dest.y - self.y 
+	vectToDest.y = self.dest.y - self.y
 	vectToDest = vector.new(vectToDest.x,vectToDest.y)
 	newPosition = vectToDest:normalized()*self.speed*dt
 

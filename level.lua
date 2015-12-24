@@ -3,26 +3,26 @@
 --
 --
 --### Tilemap description:
--- You can design a map using a lot of layers, both *tile layer* and *object layer*. But there are two required: 
--- 
---* *Tile layer "0"*: where the entities are drawn and used for check wall collisions.  
+-- You can design a map using a lot of layers, both *tile layer* and *object layer*. But there are two required:
+--
+--* *Tile layer "0"*: where the entities are drawn and used for check wall collisions.
 --	-- Tiles with property `obstacle = true` works as invisible wall.
 --
---* *Object layer "Events"*: used for instance objects.  
---	-- The object is instanciated where the object is placed.  
+--* *Object layer "Events"*: used for instance objects.
+--	-- The object is instanciated where the object is placed.
 --	-- Must be defined with the `type = spawn` and had a property defined as `type` with the value that describes
---	the object. See `Level:_mobSpawn()`.  
+--	the object. See `Level:_mobSpawn()`.
 --	-- The object spawn with property `type = player` instance the player avatar where is placed.
 -- @module Level
 
-require("lib.middleclass")
+class = require("lib.middleclass.middleclass")
 require("lib.AStar.astar")
 require("entity.player")
 require("entity.mob.mummy")
 require("entity.mob.bat")
-camera = require("lib.camera")
+camera = require("lib.hump.camera")
 
---- Level Class. 
+--- Level Class.
 -- @type Level
 Level = {}
 Level.__index = Level
@@ -46,12 +46,12 @@ local floor, abs = math.floor, math.abs
 --
 -- Supose the files placed into "res/levels/" folder.
 -- @param tmxPath the file name of .tmx
-function Level.create(tmxPath) 
+function Level.create(tmxPath)
 	lvl = {}
 	setmetatable(lvl,Level)
 
-	local loader = require("lib.AdvTiledLoader.Loader")
-	local grid = require("lib.AdvTiledLoader.Grid")
+	local loader = require("lib.Advanced-Tiled-Loader.Loader")
+	local grid = require("lib.Advanced-Tiled-Loader.Grid")
 
 	loader.path = "res/levels/" 				--Change this to wherever your .tmx files are
 	lvl.map = loader.load(tmxPath) 				--Change this to the name of your mapfile
@@ -84,7 +84,7 @@ end
 function Level:update(dt)
 	global.numOfEntities = 0 -- benchmark data
 	-- update entities
-	for entity,_ in pairs(self.entities) do 
+	for entity,_ in pairs(self.entities) do
 		entity:update(dt)
 		global.numOfEntities = global.numOfEntities + 1
 	end
@@ -110,7 +110,7 @@ function Level:drawQuadCollider(entity)
 
 	if quadCollider~=nil then
 		love.graphics.setColor(255,0,0)
-		love.graphics.polygon("line", entity.x+entity.quadCollider.x1, entity.y+entity.quadCollider.y1, 
+		love.graphics.polygon("line", entity.x+entity.quadCollider.x1, entity.y+entity.quadCollider.y1,
 								      entity.x+entity.quadCollider.x2, entity.y+entity.quadCollider.y1,
 								      entity.x+entity.quadCollider.x2, entity.y+entity.quadCollider.y2,
 								      entity.x+entity.quadCollider.x1, entity.y+entity.quadCollider.y2)
@@ -122,7 +122,7 @@ end
 
 --- **Debug function**.
 --
--- Draw for a given entity the path that is walking. 
+-- Draw for a given entity the path that is walking.
 -- @param entity the `Entity` object
 function Level:drawPath(entity)
 	local colorSaved = {}
@@ -142,24 +142,24 @@ function Level:drawPath(entity)
 	love.graphics.setColor(colorSaved.r,colorSaved.g,colorSaved.b)
 end
 
---- Draw the entities of a tile. 
+--- Draw the entities of a tile.
 --
 -- Draw all the entities which are on a specific tile of the .tmx map, sorted by depth.
 --
 -- This function will be called by `TileLayer:setAfterTileFunction()` from AdvTileLoader library
 -- and was made following her documentation.
--- @param tilePositionX tile X position 
+-- @param tilePositionX tile X position
 -- @param tilePositionY tile Y position
 -- @param tileDrawX unused
 -- @param tileDrawY unused
 -- @param self unused
 function Level:drawEntities(tilePositionX, tilePositionY, tileDrawX, tileDrawY, self)
-	
+
 	local function drawSort(a,b) return a.y < b.y end
 	local listOfEntities = {}
 
 	-- dictionary to table
-	for entity,_ in pairs(self:getBucket({x=tilePositionX, y=tilePositionY})) do 
+	for entity,_ in pairs(self:getBucket({x=tilePositionX, y=tilePositionY})) do
 		if tilePositionX==entity.tile.x and tilePositionY==entity.tile.y then
 			table.insert(listOfEntities,entity)
 		end
@@ -169,7 +169,7 @@ function Level:drawEntities(tilePositionX, tilePositionY, tileDrawX, tileDrawY, 
 	table.sort(listOfEntities, drawSort)
 
 	-- draw the entities
-	for _,entity in ipairs(listOfEntities) do 
+	for _,entity in ipairs(listOfEntities) do
 		entity:draw()
 	end
 end
@@ -177,17 +177,17 @@ end
 
 --- Draw stage.
 --
--- Represent the actual level state. 
+-- Represent the actual level state.
 -- Draw the map, the entities and the mouse.
 function Level:draw()
 	self.cam:attach()
 
-	local camX, camY = self.cam:pos()
+	local camX, camY = self.cam:position()
 
 	-- scale and translate the game screen for map drawing
 	love.graphics.push()
 	love.graphics.scale(global.scale)
-	
+
 	-- limit the draw range ARREGLAR!!
 	self.map:autoDrawRange((love.graphics.getWidth()/2)-camX, (love.graphics.getHeight()/2)-camY, global.scale, padding)
 
@@ -198,14 +198,14 @@ function Level:draw()
 
   	-- draw Path
   	if global.debugMode then
-  		for entity,_ in pairs(self.entities) do 
-			if instanceOf(Mob,entity) and entity.dest.fScore ~= nil then
+  		for entity,_ in pairs(self.entities) do
+			if entity:isInstanceOf(Mob) and entity.dest.fScore ~= nil then
 				self:drawPath(entity)
 			end
 			self:drawQuadCollider(entity)
 		end
   	end
-  	
+
 	love.graphics.pop()
 
 	self.cam:detach()
@@ -221,12 +221,12 @@ function Level:draw()
 end
 
 
---- Shake cam effect. 
+--- Shake cam effect.
 --
 -- Effect that fake an earthquake
 function Level:shake()
 
-	Timer.do_for(1, 
+	Timer.during(1,
 		function()
     		self.cam:lookAt(self.player.x + math.random(-2,2), self.player.y + math.random(-2,2))
 		end,
@@ -236,9 +236,9 @@ function Level:shake()
 end
 
 
---- Spawn player and mobs on the map. 
+--- Spawn player and mobs on the map.
 --
--- From the layer "Events" on the map, load the objects defined like "spawn" 
+-- From the layer "Events" on the map, load the objects defined like "spawn"
 -- and depending on his property "type" make an instance.
 function Level:_mobSpawn()
 	local entityConstructor = {
@@ -258,8 +258,8 @@ function Level:_mobSpawn()
 end
 
 
---- Turns an isometric grid tile number to world location. 
--- @param tileX tile x position 
+--- Turns an isometric grid tile number to world location.
+-- @param tileX tile x position
 -- @param tileY tile y position
 -- @return x x world coordination
 -- @return y y world coordination
@@ -270,7 +270,7 @@ function Level:tileToCoords(tileX,tileY)
 end
 
 
---- Turns a world location into an isometric grid tile number. 
+--- Turns a world location into an isometric grid tile number.
 -- @param x x world coordination
 -- @param y y world coordination
 -- @treturn {x,y} a table with an isometric grid tile position
@@ -288,8 +288,8 @@ function Level:tileIsObstacle(tile)
 
 	-- Grab the tile
 	local tileToCheck = self.map.layers["0"](tile.x, tile.y)
-	
-	if tileToCheck~=nil and not tileToCheck.properties.obstacle then 
+
+	if tileToCheck~=nil and not tileToCheck.properties.obstacle then
 		return false
 	else
 		return true
@@ -318,12 +318,12 @@ function Level:getBucket(tile)
 	return self.buckets(cellX, cellY)
 end
 
---- Puts an entity into a bucket. 
+--- Puts an entity into a bucket.
 --
 -- If the entity has moved then provide his old tile location for remove it from there.
 -- @param entity the `Entity` that wants to insert in the bucket.
--- @tparam {x,y} tile a table with an isometric grid tile position  
--- @tparam {x,y} oldTile (optional) a table with an isometric grid tile position 
+-- @tparam {x,y} tile a table with an isometric grid tile position
+-- @tparam {x,y} oldTile (optional) a table with an isometric grid tile position
 function Level:putIntoBucket(entity, tile, oldTile)
 	local oldTile = oldTile or nil
 	if oldTile ~= nil then
@@ -335,7 +335,7 @@ end
 
 --- Remove an entity from his bucket.
 -- @param entity the `Entity` to be removed
--- @tparam {x,y} tile a table with an isometric grid tile position  
+-- @tparam {x,y} tile a table with an isometric grid tile position
 function Level:removeFromBucket(entity, tile)
 	self:getBucket(tile)[ entity ] = nil
 end
@@ -358,7 +358,7 @@ function Level:updateBucket(entity)
 		return true
 	end
 
-	return false	
+	return false
 end
 
 
@@ -368,7 +368,7 @@ end
 
 
 --- Gets a list of buckets that are contained by a quad collider.
--- @tparam {x1,y1,x2,y2} quadCollider table with two pair of coordinates in world location. 
+-- @tparam {x1,y1,x2,y2} quadCollider table with two pair of coordinates in world location.
 function Level:bucketsInsideCollider(quadCollider)
 	-- quadCollider {x1,y2,x2,y2}
 	local topLeftTile, topRightTile, bottomLeftTile, bottomRightTile
@@ -388,16 +388,16 @@ function Level:bucketsInsideCollider(quadCollider)
 	return listOfBuckets
 end
 
---- Checks if an `Entity` is colliding with another one.   
+--- Checks if an `Entity` is colliding with another one.
 -- Saves on `entity.collision` a table with `Entity` objects with which collided.
--- 
--- If x and y params are passed, this function works like the `Entity` was there, as forecast. 
+--
+-- If x and y params are passed, this function works like the `Entity` was there, as forecast.
 -- @param entity the `Entity` to be checked
--- @param x (optional) world location x coordinate. 
+-- @param x (optional) world location x coordinate.
 -- @param y (optional) world location y coordinate.
 -- @return Returns True if the `Entity` is colliding with another `Entity`.
 function Level:checkCollideEntities(entity,x,y)
-	
+
 	local isColliding = false
 
 	if entity.enableCheckCollideEntities and entity.alive then
@@ -411,8 +411,8 @@ function Level:checkCollideEntities(entity,x,y)
 
 		local listOfBuckets = self:bucketsInsideCollider(quadCollider)
 
-		for bucket,_ in pairs(listOfBuckets) do 
-			for ent,__ in pairs(bucket) do 
+		for bucket,_ in pairs(listOfBuckets) do
+			for ent,__ in pairs(bucket) do
 				-- check collision
 				if ent~=entity and ent.quadCollider~=nil then
 					local entCollision = true
@@ -425,7 +425,7 @@ function Level:checkCollideEntities(entity,x,y)
 					end
 					if (quadCollider.y2 < ent.quadCollider.y1+ent.y) then
 						entCollision = false
-					end 
+					end
 					if (quadCollider.y1 > ent.quadCollider.y2+ent.y) then
 						entCollision = false
 					end
@@ -434,12 +434,12 @@ function Level:checkCollideEntities(entity,x,y)
 						table.insert(entity.collisions,ent)
 						isColliding = true
 					end
-					
+
 				end
 			end
 		end
 	end
-	
+
 	return isColliding
 
 end
@@ -499,7 +499,7 @@ function Level:findNeighbors(row, col)
 
 			-- As long as a neighbor isn't a wall (or itself)
 			local tile = self.map.layers["0"](col+j, row+i)
-			if 	not tile.properties.obstacle and not (i == 0 and j == 0) then		
+			if 	not tile.properties.obstacle and not (i == 0 and j == 0) then
 				local neighborTile = vector.new(self:tileToCoords(col+j,row+i))
 				local distanceToTile = neighborTile - actualTile
 				table.insert(distance, distanceToTile:len())
@@ -511,8 +511,8 @@ function Level:findNeighbors(row, col)
 end
 
 
---- Flat the bidimensional array of the map. 
--- @return table with nodes created with newNode (AStar lib).  
+--- Flat the bidimensional array of the map.
+-- @return table with nodes created with newNode (AStar lib).
 function Level:flattenMap()
 	global.flattenStart = love.timer.getTime()
 	local mapFlat = {}
@@ -522,7 +522,7 @@ function Level:flattenMap()
 			local tile = self.map.layers["0"](col, row)
 			if not tile.properties.obstacle then
 				local pathLoc = (row * self.map.width) + col
-	
+
 				-- My hScore is built using taxicab geometry. Sum the
 				-- vertical and horizontal distances, and multiply that
 				-- by 10.
@@ -543,7 +543,7 @@ function Level:flattenMap()
 end
 
 --- Uses flood fill algorithm to create a navigation graph.
--- startPos will be the "seed" of the algorithm. 
+-- startPos will be the "seed" of the algorithm.
 -- @param pathMap the flattened path map
 -- @param startPos the start node's position, relative to the pathMap
 -- @return pathMap a navigation graph
@@ -561,7 +561,7 @@ function Level:floodFill(pathMap, startPos)
 	-- Initialize the closedSet and the testNode
 	local closedSet = {}
 	local testNode = {}
-	
+
 	-- The main loop for the algorithm. Will continue to check as long as
 	-- there are open nodes that haven't been checked.
 	while #openSet > 0 do
@@ -571,8 +571,8 @@ function Level:floodFill(pathMap, startPos)
 		-- Add that node to the closed set
 		pathMap[testNode.pathLoc].closed = true
 		table.insert(closedSet, testNode)
-		
-		-- Check all the (pre-assigned) neighbors. If they are not closed 
+
+		-- Check all the (pre-assigned) neighbors. If they are not closed
 		-- already, then check to see if they are either not on the open
 		-- or if they are on the open list, but their currently assigned
 		-- distance score (either given to them when they were first added
@@ -588,13 +588,13 @@ function Level:floodFill(pathMap, startPos)
 					pathMap[v].parent = testNode
 					pathMap[v].pCloseLoc = #closedSet
 					pathMap[v].gScore = tempGScore
-					pathMap[v].fScore = 
+					pathMap[v].fScore =
 						pathMap[v].hScore + tempGScore
 					openSet:insert(pathMap[v].fScore, pathMap[v])
 				elseif tempGScore < pathMap[v].gScore then
 					pathMap[v].parent = testNode
 					pathMap[v].gScore = tempGScore
-					pathMap[v].fScore = 
+					pathMap[v].fScore =
 						pathMap[v].hScore + tempGScore
 				end
 			end

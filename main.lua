@@ -26,7 +26,7 @@
 
 require("table-save")
 require("level")
-Timer = require("lib.timer")
+Timer = require("lib.hump.timer")
 
 local fps = 0					-- Frames Per Second
 local fpsCount = 0				-- FPS count of the current second
