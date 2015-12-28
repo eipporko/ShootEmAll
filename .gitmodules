@@ -10,3 +10,6 @@
 [submodule "lib/hump"]
 	path = lib/hump
 	url = https://github.com/vrld/hump.git
+[submodule "lib/LoveAStar"]
+	path = lib/LoveAStar
+	url = https://github.com/mkosler/LoveAStar

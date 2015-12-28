@@ -16,7 +16,8 @@
 -- @module Level
 
 class = require("lib.middleclass.middleclass")
-require("lib.AStar.astar")
+package.path = package.path .. ";./lib/LoveAStar/?.lua"
+require("astar_good")
 require("entity.player")
 require("entity.mob.mummy")
 require("entity.mob.bat")

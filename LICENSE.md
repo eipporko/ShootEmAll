@@ -8,7 +8,7 @@ All assets used are property of Mojang and Yar respectively and are under:
   See: http://catacombsnatch.net/licence.html
 
 * CC BY 3.0 license.  
-  See: http://opengameart.org/content/isometric-64x64-outside-tileset 
+  See: http://opengameart.org/content/isometric-64x64-outside-tileset
 
 
 ShootEmAll uses:
@@ -27,3 +27,6 @@ ShootEmAll uses:
 
 * AdvTiledLoader.  
   See: https://github.com/Kadoba/Advanced-Tiled-Loader/blob/master/VERSION.txt
+
+* LoveAStar.  
+  See: https://github.com/mkosler/LoveAStar
