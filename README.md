@@ -54,6 +54,7 @@ Download löve from the project's [website](https://love2d.org/) and execute the
 ```
 git clone https://github.com/eipporko/ShootEmAll.git
 cd ShootEmAll
+git submodule update --init
 love .
 ```
 
